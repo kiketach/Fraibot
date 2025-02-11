@@ -50,7 +50,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 # Función para generar ideas para eventos
 def generar_idea_evento():
     prompt = """
-    Genera una idea creativa para un evento de streaming relacionado con tecnología y análisis de datos. 
+    Genera una idea creativa para un evento de streaming relacionado con tecnología, SQL, Power BI y análisis de datos. 
     La idea debe incluir:
     - Un tema principal
     - Actividades sugeridas
@@ -152,7 +152,7 @@ def main():
     
     print("🤖 FraiBot está corriendo...")
     app.run_polling()
-    
+
 # Función para iniciar un servidor HTTP básico
 def run_dummy_server():
     class DummyHandler(BaseHTTPRequestHandler):
