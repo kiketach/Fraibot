@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import logging
 import re
 from concurrent.futures import ThreadPoolExecutor
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 # Cargar variables de entorno
 load_dotenv()
@@ -151,6 +152,21 @@ def main():
     
     print("🤖 FraiBot está corriendo...")
     app.run_polling()
+    
+# Función para iniciar un servidor HTTP básico
+def run_dummy_server():
+    class DummyHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"OK")
+
+    server = HTTPServer(('0.0.0.0', 10000), DummyHandler)  # Puerto 10000
+    server.serve_forever()
+
+# Inicia el servidor HTTP en segundo plano
+import threading
+threading.Thread(target=run_dummy_server, daemon=True).start()
 
 if __name__ == "__main__":
     main()
