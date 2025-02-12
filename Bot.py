@@ -77,11 +77,12 @@ def generar_idea_contenido():
 async def start(update: Update, context: CallbackContext):
     keyboard = [
         [InlineKeyboardButton("💡 Ideas para Eventos", callback_data="ideas_eventos")],
-        [InlineKeyboardButton("🎬 Ideas para contenido audiovisual", callback_data="ideas_contenido")]
+        [InlineKeyboardButton("🎬 Ideas para contenido audiovisual", callback_data="ideas_contenido")],
+        [InlineKeyboardButton("📧 Enviar correos", callback_data="enviar_correos")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text(
-        "👋 ¡Hola! Soy FraiBot. Usa el comando /start para ver las opciones disponibles y obtener ayuda.",
+        "👋 ¡Hola! Cual opción deseas?",
         reply_markup=reply_markup
     )
 
@@ -96,6 +97,9 @@ async def button_handler(update: Update, context: CallbackContext):
     elif query.data == "ideas_contenido":
         idea = generar_idea_contenido()
         keyboard = [[InlineKeyboardButton("🔄 Generar otra idea", callback_data="ideas_contenido")]]
+    elif query.data == "enviar_correos":
+        idea = "Por favor, sube un archivo Excel o CSV con las columnas: correo, nombre y mensaje. Para enviar todos los correos por ti"
+        keyboard = [[InlineKeyboardButton("🔄 Subir archivo", callback_data="enviar_correos")]]
 
     reply_markup = InlineKeyboardMarkup(keyboard)
     await query.edit_message_text(
