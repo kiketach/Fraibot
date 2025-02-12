@@ -82,7 +82,7 @@ async def start(update: Update, context: CallbackContext):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text(
-        "👋 ¡Hola! Cual opción deseas?",
+        "👋 Escoge la opción que necesites",
         reply_markup=reply_markup
     )
 
@@ -99,11 +99,11 @@ async def button_handler(update: Update, context: CallbackContext):
         keyboard = [[InlineKeyboardButton("🔄 Generar otra idea", callback_data="ideas_contenido")]]
     elif query.data == "enviar_correos":
         idea = "Por favor, sube un archivo Excel o CSV con las columnas: correo, nombre y mensaje. Para enviar todos los correos por ti"
-        keyboard = [[InlineKeyboardButton("🔄 Subir archivo", callback_data="enviar_correos")]]
+        keyboard = []
 
     reply_markup = InlineKeyboardMarkup(keyboard)
     await query.edit_message_text(
-        text=f"🌟 Aquí tienes una idea:\n\n{idea}",
+        text=f"🌟 Muy bien!:\n\n{idea}",
         reply_markup=reply_markup
     )
 
