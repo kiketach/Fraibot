@@ -6,7 +6,6 @@ from sendgrid.helpers.mail import Mail
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext, CallbackQueryHandler
 from dotenv import load_dotenv
-import logging
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -40,16 +39,6 @@ Valores de Frailejon.Tech:
 5. Inclusión.
 Tu personalidad es profesional, innovadora y motivadora. Responde de manera clara y útil, siempre alineado con los valores y objetivos de Frailejon.Tech.
 """
-
-# Configurar logging
-logging.basicConfig(
-    level=logging.WARNING,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("bot.log")]
-)
-
-# Desactivar logs de httpx
-logging.getLogger("httpx").setLevel(logging.WARNING)
 
 # Función para generar ideas para eventos
 def generar_idea_evento():
@@ -128,7 +117,6 @@ async def recibir_mensaje(update: Update, context: CallbackContext):
 
         await update.message.reply_text(bot_reply)
     except Exception as e:
-        logging.error(f"Error al procesar mensaje: {str(e)}")
         await update.message.reply_text("Ocurrió un error al procesar tu solicitud. Por favor, inténtalo de nuevo.")
 
 # Procesar archivos Excel o CSV
@@ -159,7 +147,6 @@ async def recibir_archivo(update: Update, context: CallbackContext):
 
         await update.message.reply_text("📧 Correos enviados exitosamente!")
     except Exception as e:
-        logging.error(f"Error al procesar archivo: {str(e)}")
         await update.message.reply_text("Ocurrió un error al procesar el archivo. Por favor, inténtalo de nuevo.")
 
 # Función para enviar correos
@@ -167,10 +154,9 @@ def send_email(sg, email, nombre, mensaje):
     email_content = f"Hola {nombre},\n\n{mensaje}\n\nSaludos,\nFrailejon.Tech"
     mail = Mail(from_email=EMAIL_SENDER, to_emails=email, subject="Mensaje de Frailejon.Tech", plain_text_content=email_content)
     try:
-        response = sg.send(mail)
-        logging.info(f"Correo enviado a {email}: {response.status_code}")
+        sg.send(mail)
     except Exception as e:
-        logging.error(f"Error al enviar correo a {email}: {str(e)}")
+        pass
 
 # Iniciar servidor HTTP básico
 class DummyHandler(BaseHTTPRequestHandler):
