@@ -1,7 +1,4 @@
 🤖 FraiBot
-GitHub License
-Python Version
-Render Deploy
 
 FraiBot es un asistente virtual diseñado para apoyar al equipo de Frailejon.Tech en tareas creativas, estratégicas y operativas. Desde la generación de contenido hasta el envío masivo de correos electrónicos, FraiBot está aquí para impulsar el crecimiento de tu comunidad y proyectos. 
 
@@ -11,6 +8,9 @@ FraiBot es un asistente virtual diseñado para apoyar al equipo de Frailejon.Tec
 - Envío masivo de correos: Procesa archivos Excel o CSV para enviar correos personalizados a múltiples destinatarios.
 
 - Generador de ideas para eventos: Proporciona ideas creativas para eventos relacionados con tecnología, streaming y análisis de datos.
+
+- Generador de ideas para contenido audiovisual: Proporciona ideas creativas para generar contenido audisovisual incluyendo el guión por escenas.
+
 Interfaz amigable: Interactúa fácilmente a través de comandos y botones en Telegram.
 
 🛠 Tecnologías utilizadas
