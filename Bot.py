@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import logging
 from io import BytesIO
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import threading
 
 # Cargar variables de entorno
 load_dotenv()
@@ -144,7 +145,11 @@ def main():
     app.add_handler(CallbackQueryHandler(button_handler))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, recibir_mensaje))
     app.add_handler(MessageHandler(filters.Document.MimeType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") | filters.Document.MimeType("text/csv"), recibir_archivo))
+    print("🤖 FraiBot está corriendo...")
     app.run_polling()
+
+# Inicia el servidor HTTP en segundo plano
+threading.Thread(target=run_dummy_server, daemon=True).start
 
 if __name__ == "__main__":
     main()
