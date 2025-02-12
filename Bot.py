@@ -154,13 +154,18 @@ def main():
     app.run_polling()
 
 # Función para iniciar un servidor HTTP básico
-def run_dummy_server():
-    class DummyHandler(BaseHTTPRequestHandler):
-        def do_GET(self):
-            self.send_response(200)
-            self.end_headers()
-            self.wfile.write(b"OK")
+class DummyHandler(BaseHTTPRequestHandler):
+    def do_HEAD(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
 
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+
+def run_dummy_server():
     server = HTTPServer(('0.0.0.0', 10000), DummyHandler)  # Puerto 10000
     server.serve_forever()
 
