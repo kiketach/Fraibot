@@ -62,12 +62,26 @@ def generar_idea_evento():
     response = model.generate_content(CONTEXT + "\n\n" + prompt)
     return response.text if response.text else "Lo siento, no pude generar una idea en este momento."
 
+# Función para generar ideas para contenido audiovisual
+def generar_idea_contenido():
+    prompt = """
+    Genera una idea creativa para contenido audiovisual relacionado con tecnología, SQL, Power BI y análisis de datos. 
+    La idea debe incluir:
+    - Un título atractivo
+    - Un guion detallado
+    """
+    response = model.generate_content(CONTEXT + "\n\n" + prompt)
+    return response.text if response.text else "Lo siento, no pude generar una idea en este momento."
+
 # Comando /start
 async def start(update: Update, context: CallbackContext):
-    keyboard = [[InlineKeyboardButton("💡 Ideas para Eventos", callback_data="ideas_eventos")]]
+    keyboard = [
+        [InlineKeyboardButton("💡 Ideas para Eventos", callback_data="ideas_eventos")],
+        [InlineKeyboardButton("🎬 Ideas para contenido audiovisual", callback_data="ideas_contenido")]
+    ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text(
-        "👋 ¡Hola! Soy FraiBot. ¿En qué puedo ayudarte? Usa el botón de abajo para obtener ideas para eventos.",
+        "👋 ¡Hola! Soy FraiBot. ¿En qué puedo ayudarte? Usa los botones de abajo para obtener ideas.",
         reply_markup=reply_markup
     )
 
@@ -79,11 +93,15 @@ async def button_handler(update: Update, context: CallbackContext):
     if query.data == "ideas_eventos":
         idea = generar_idea_evento()
         keyboard = [[InlineKeyboardButton("🔄 Generar otra idea", callback_data="ideas_eventos")]]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await query.edit_message_text(
-            text=f"🌟 Aquí tienes una idea para tu evento:\n\n{idea}",
-            reply_markup=reply_markup
-        )
+    elif query.data == "ideas_contenido":
+        idea = generar_idea_contenido()
+        keyboard = [[InlineKeyboardButton("🔄 Generar otra idea", callback_data="ideas_contenido")]]
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await query.edit_message_text(
+        text=f"🌟 Aquí tienes una idea:\n\n{idea}",
+        reply_markup=reply_markup
+    )
 
 # Respuesta a mensajes de texto con memoria de conversación
 async def recibir_mensaje(update: Update, context: CallbackContext):
